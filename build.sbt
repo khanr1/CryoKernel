@@ -116,7 +116,7 @@ lazy val frontend =
   project
     .in(file("06-frontend"))
     .dependsOn(domain.js)
-    .enablePlugins(ScalaJSPlugin)
+    .enablePlugins(ScalaJSPlugin, ScalablyTypedConverterExternalNpmPlugin)
     .settings(
       scalaJSUseMainModuleInitializer := true,
       /* Configure Scala.js to emit modules in the optimal way to
@@ -133,7 +133,8 @@ lazy val frontend =
               List("CryoKernel")
             )
           )
-      }
+      },
+      externalNpm := baseDirectory.value
     )
     .settings(
       libraryDependencies ++= Seq(Library.laminar.value)

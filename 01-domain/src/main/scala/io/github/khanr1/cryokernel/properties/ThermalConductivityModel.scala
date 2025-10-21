@@ -37,7 +37,7 @@ object ThermalConductivityModel:
       (tc.model, tc.coef, tc.validityRange)
     )
   given Decoder[ThermalConductivityModel] =
-    Decoder.forProduct3("model", "Coefficient", "ValidityRange")(
+    Decoder.forProduct3("model", "coefficient", "validityRange")(
       (model: String, coef: List[Double], range: QuantityRange[Temperature]) =>
         coef match
           case List(a)    => ThermalConductivityModel.constant(a, range)
@@ -103,7 +103,8 @@ object ThermalConductivityModel:
         // Calculate the thermal conductivity
         val baseConductivity =
           ThermalConductivity(math.pow(10, exponent), WattsPerMeterKelvin)
-        // Adjust for temperatures below the validity range
+        // Adjust for temperatures below the validity.
+        // We assume a linear relation between the Temperature and Kappa bleow the lower temperature range.
         if (temperature > range.lower) baseConductivity
         else baseConductivity * (temperature / range.lower)
 

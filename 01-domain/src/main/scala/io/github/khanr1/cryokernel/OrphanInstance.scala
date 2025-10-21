@@ -1,25 +1,17 @@
 package io.github.khanr1.cryokernel
 
-import io.circe.Decoder
-import io.circe.Encoder
-import squants.thermal.*
 import cats.syntax.all.*
-import io.circe.Json
-import io.circe.HCursor
 import io.circe.Decoder.Result
 import io.circe.DecodingFailure
-import squants.QuantityParseException
-import io.github.khanr1.cryokernel.units.ThermalConductivity
-import io.github.khanr1.cryokernel.units.WattsPerMeterKelvin
-import squants.space.Length
-import scala.util.Failure
-import scala.util.Success
-import squants.space.Meters
-import squants.space.Millimeters
-import squants.space.Microns
-import squants.space.Nanometers
-import squants.QuantityRange
-import squants.Quantity
+import io.circe.{Encoder, Decoder, HCursor, Json}
+import io.github.khanr1.cryokernel.units.{
+  ThermalConductivity,
+  WattsPerMeterKelvin
+}
+import scala.util.{Failure, Success}
+import squants.{Quantity, QuantityParseException, QuantityRange}
+import squants.space.{Meters, Millimeters, Microns, Nanometers, Length}
+import squants.thermal.*
 
 object OrphanInstances:
   // Encoder and Decoder for Temperature
@@ -31,7 +23,7 @@ object OrphanInstances:
   given Decoder[Temperature] = new Decoder[Temperature] {
 
     override def apply(c: HCursor): Result[Temperature] =
-      val pattern = """^(-?\d+(\,\d+)?)[ ](f|F|c|C|k|K|r|R)$""".r
+      val pattern = """^(-?\d+([,.]\d+)?)[ ](f|F|c|C|k|K|r|R)$""".r
       c.as[String]
         .flatMap(x =>
           x match

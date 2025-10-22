@@ -11,6 +11,6 @@ def main(): Unit =
   renderOnDomContentLoaded(
     dom.document.getElementById("app"),
     div(
-      navBar("Cryokernel", List("Materials"))
+      navBar("Cryokernel", List("Materials", "Heatload"))
     )
   )
